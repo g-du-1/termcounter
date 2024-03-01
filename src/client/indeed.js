@@ -73,7 +73,19 @@
     };
   };
 
+  const localStorageKey = 'gdSaved';
+
+  const saveToLocalStorage = (jobData) => {
+    const savedArray = JSON.parse(localStorage.getItem(localStorageKey));
+
+    savedArray.push(jobData);
+
+    localStorage.setItem(localStorageKey, JSON.stringify(savedArray));
+  };
+
   const main = async () => {
+    localStorage.setItem(localStorageKey, '[]');
+
     const PAGES_TO_VISIT = 2;
 
     for (let i = 0; i < PAGES_TO_VISIT; i++) {
@@ -91,6 +103,7 @@
         jobData.indeedUrl = currJobElem?.getAttribute("href");
 
         console.log(`${i + 1}`, jobData);
+        saveToLocalStorage(jobData);
 
         await delay(Math.random() * 9000 + 1000);
       }
