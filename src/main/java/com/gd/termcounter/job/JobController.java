@@ -16,12 +16,26 @@ public class JobController {
         this.jobService = jobService;
     }
 
+    private Job mapJob(JobDTO jobDTO) {
+        Job job = new Job();
+
+        job.setTitle(jobDTO.getTitle());
+        job.setEmployer(jobDTO.getEmployer());
+        job.setKey(jobDTO.getKey());
+        job.setLocation(jobDTO.getLocation());
+        job.setSalaryMin(Integer.parseInt(jobDTO.getSalaryMin()));
+        job.setSalaryMax(Integer.parseInt(jobDTO.getSalaryMax()));
+        job.setUrl(jobDTO.getUrl());
+        job.setDescriptionTxt(jobDTO.getDescriptionTxt());
+
+        return job;
+    }
+
     @PostMapping("/save")
     public ResponseEntity<Job> saveJob(@RequestBody JobDTO jobDTO) {
-        Job job = new Job();
-        job.setTitle(jobDTO.getTitle());
+        Job mappedJob = mapJob(jobDTO);
 
-        Job savedJob = jobService.saveJob(job);
+        Job savedJob = jobService.saveJob(mappedJob);
 
         return new ResponseEntity<>(savedJob, HttpStatus.CREATED);
     }
