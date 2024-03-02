@@ -19,8 +19,7 @@ public class JobServiceTest {
     public void saveJob() {
         JobService jobService = new JobService(jobRepository);
 
-        Job job = new Job();
-        job.setTitle("Software Engineer");
+        Job job = JobUtils.createJob();
 
         when(jobRepository.save(job)).thenReturn(job);
 

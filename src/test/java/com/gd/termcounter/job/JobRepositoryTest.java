@@ -16,8 +16,7 @@ public class JobRepositoryTest {
 
     @Test
     public void testSaveJob() {
-        Job job = new Job();
-        job.setTitle("Software Engineer");
+        Job job = JobUtils.createJob();
 
         Job savedJob = jobRepository.save(job);
 

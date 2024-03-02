@@ -24,8 +24,7 @@ public class JobControllerTest {
 
     @Test
     public void testCreateJob() throws Exception {
-        Job job = new Job();
-        job.setTitle("Software Engineer");
+        Job job = JobUtils.createJob();
 
         when(jobService.saveJob(any(Job.class))).thenReturn(job);
 
