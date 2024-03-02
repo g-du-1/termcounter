@@ -33,6 +33,7 @@ public class JobControllerTest {
                         .content("{\"title\": \"Software Engineer\"}")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Software Engineer"));
+                .andExpect(jsonPath("$.title").value("Software Engineer"))
+                .andExpect(jsonPath("$.descriptionTxt").value("Job Description"));
     }
 }

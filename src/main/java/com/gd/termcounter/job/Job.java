@@ -1,9 +1,6 @@
 package com.gd.termcounter.job;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Job {
@@ -12,6 +9,17 @@ public class Job {
     private Long id;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
+    private String descriptionTxt;
+
+    public String getDescriptionTxt() {
+        return descriptionTxt;
+    }
+
+    public void setDescriptionTxt(String descriptionTxt) {
+        this.descriptionTxt = descriptionTxt;
+    }
 
     public String getTitle() {
         return title;
