@@ -33,7 +33,13 @@ public class JobControllerTest {
                         .content("{\"title\": \"Software Engineer\"}")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.key").value("abdcef"))
                 .andExpect(jsonPath("$.title").value("Software Engineer"))
-                .andExpect(jsonPath("$.descriptionTxt").value("Job Description"));
+                .andExpect(jsonPath("$.descriptionTxt").value("Job Description"))
+                .andExpect(jsonPath("$.employer").value("Company"))
+                .andExpect(jsonPath("$.location").value("London"))
+                .andExpect(jsonPath("$.url").value("https://example.com"))
+                .andExpect(jsonPath("$.salaryMin").value(80000.00))
+                .andExpect(jsonPath("$.salaryMax").value(90000.00));
     }
 }
