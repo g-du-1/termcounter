@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.gd.termcounter.job.JobAssertions.assertJobEquals;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -21,6 +21,6 @@ public class JobRepositoryTest {
 
         Job savedJob = jobRepository.save(job);
 
-        assertEquals("Software Engineer", savedJob.getTitle());
+        assertJobEquals(job, savedJob);
     }
 }

@@ -3,7 +3,7 @@ package com.gd.termcounter.job;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.gd.termcounter.job.JobAssertions.assertJobEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +26,6 @@ public class JobServiceTest {
 
         Job savedJob = jobService.saveJob(job);
 
-        assertEquals("Software Engineer", savedJob.getTitle());
+        assertJobEquals(job, savedJob);
     }
 }
