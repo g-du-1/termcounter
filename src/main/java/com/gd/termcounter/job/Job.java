@@ -10,15 +10,19 @@ public class Job {
     private Long id;
 
     private String key;
+
+    @Column(columnDefinition = "TEXT")
     private String title;
     private String employer;
 
     @Column(columnDefinition = "TEXT")
     private String descriptionTxt;
+
+    @Column(columnDefinition = "TEXT")
     private String url;
     private String location;
-    private int salaryMin;
-    private int salaryMax;
+    private Double salaryMin;
+    private Double salaryMax;
 
     public String getKey() {
         return key;
@@ -60,19 +64,19 @@ public class Job {
         this.location = location;
     }
 
-    public int getSalaryMin() {
+    public Double getSalaryMin() {
         return salaryMin;
     }
 
-    public void setSalaryMin(int salaryMin) {
+    public void setSalaryMin(Double salaryMin) {
         this.salaryMin = salaryMin;
     }
 
-    public int getSalaryMax() {
+    public Double getSalaryMax() {
         return salaryMax;
     }
 
-    public void setSalaryMax(int salaryMax) {
+    public void setSalaryMax(Double salaryMax) {
         this.salaryMax = salaryMax;
     }
 

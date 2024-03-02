@@ -23,12 +23,26 @@ public class JobController {
         job.setEmployer(jobDTO.getEmployer());
         job.setKey(jobDTO.getKey());
         job.setLocation(jobDTO.getLocation());
-        job.setSalaryMin(Integer.parseInt(jobDTO.getSalaryMin()));
-        job.setSalaryMax(Integer.parseInt(jobDTO.getSalaryMax()));
         job.setUrl(jobDTO.getUrl());
         job.setDescriptionTxt(jobDTO.getDescriptionTxt());
 
+        if (jobDTO.getSalaryMin() != null) {
+            job.setSalaryMin(parseDoubleOrNull(jobDTO.getSalaryMin()));
+        }
+
+        if (jobDTO.getSalaryMax() != null) {
+            job.setSalaryMax(parseDoubleOrNull(jobDTO.getSalaryMax()));
+        }
+
         return job;
+    }
+
+    private Double parseDoubleOrNull(String value) {
+        if (value != null && !value.isEmpty()) {
+            return Double.parseDouble(value);
+        } else {
+            return null;
+        }
     }
 
     @PostMapping("/save")
