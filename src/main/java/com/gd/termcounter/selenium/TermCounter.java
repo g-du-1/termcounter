@@ -39,8 +39,8 @@ public class TermCounter {
                 JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
                 String javascriptCode = new String(Files.readAllBytes(Paths.get("C:\\Users\\dudas\\termcounter\\src\\main\\java\\com\\gd\\termcounter\\selenium\\request.js")));
                 javascriptCode = javascriptCode.replace("{{jobKey}}", jobLink.getAttribute("data-jk"));
+                System.out.println("Sending Request...");
                 Object response = jsExecutor.executeScript(javascriptCode);
-                System.out.println("HTTP Response: " + response);
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 String jsonResponse = objectMapper.writeValueAsString(response);
@@ -53,6 +53,7 @@ public class TermCounter {
 
             pagesVisited++;
 
+            System.out.println("Going to next page...");
             clickElem(driver, By.cssSelector("[data-testid='pagination-page-next']"));
         }
 
@@ -64,6 +65,7 @@ public class TermCounter {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<JobDTO> httpEntity = new HttpEntity<>(dto, headers);
         RestTemplate restTemplate = new RestTemplate();
+        System.out.println("Saving job");
         restTemplate.postForEntity(uri, httpEntity, String.class);
     }
 }
