@@ -12,6 +12,10 @@ public class JobService {
     }
 
     public Job saveJob(Job job) {
-        return jobRepository.save(job);
+        if (!jobRepository.existsByKey(job.getKey())) {
+            return jobRepository.save(job);
+        }
+
+        return job;
     }
 }
