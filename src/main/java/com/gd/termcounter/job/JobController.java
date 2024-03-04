@@ -19,13 +19,13 @@ public class JobController {
         this.objectMapper = objectMapper;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Job> createJob(@RequestBody JobDTO jobDTO) throws JsonProcessingException {
+    @PostMapping("/save")
+    public ResponseEntity<Job> saveJob(@RequestBody JobDTO jobDTO) throws JsonProcessingException {
         String dtoString = objectMapper.writeValueAsString(jobDTO);
         Job job = objectMapper.readValue(dtoString, Job.class);
 
-        Job createdJob = jobService.saveJob(job);
+        Job savedJob = jobService.saveJob(job);
 
-        return ResponseEntity.ok(createdJob);
+        return ResponseEntity.ok(savedJob);
     }
 }
