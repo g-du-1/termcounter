@@ -1,45 +1,99 @@
 package com.gd.termcounter.job;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.List;
 
-@WebMvcTest(JobController.class)
-public class JobControllerTest {
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class JobControllerTest {
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
     @Autowired
-    private MockMvc mockMvc;
+    JobRepository jobRepository;
 
-    @MockBean
-    private JobService jobService;
+    @LocalServerPort
+    private Integer port;
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.baseURI = "http://localhost:" + port;
+        jobRepository.deleteAll();
+    }
 
     @Test
-    public void testCreateJob() throws Exception {
-        Job job = JobUtils.createJob();
+    void shouldSaveJob() {
+        // TODO Check the rest of the fields
+        JobDTO jobDTO = new JobDTO();
+        jobDTO.setKey("abcdef");
+        jobDTO.setTitle("Software Engineer");
 
-        when(jobService.saveJob(any(Job.class))).thenReturn(job);
+        given()
+                .contentType(ContentType.JSON)
+                .body(jobDTO)
+                .when()
+                .post("/api/v1/jobs/create")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("key", equalTo("abcdef"))
+                .body("title", equalTo("Software Engineer"));
+    }
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/jobs/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\": \"Software Engineer\"}")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.key").value("abdcef"))
-                .andExpect(jsonPath("$.title").value("Software Engineer"))
-                .andExpect(jsonPath("$.descriptionTxt").value("Job Description"))
-                .andExpect(jsonPath("$.employer").value("Company"))
-                .andExpect(jsonPath("$.location").value("London"))
-                .andExpect(jsonPath("$.url").value("https://example.com"))
-                .andExpect(jsonPath("$.salaryMin").value(80000.00))
-                .andExpect(jsonPath("$.salaryMax").value(90000.00));
+    @Test
+    void updatesExistingJobWithNoDuplicates() {
+        Job existingJob = new Job();
+        existingJob.setKey("abcdef");
+        existingJob.setTitle("Original Title");
+
+        jobRepository.save(existingJob);
+
+        JobDTO newJobWithSameKey = new JobDTO();
+        newJobWithSameKey.setKey("abcdef");
+        newJobWithSameKey.setTitle("Updated Title");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(newJobWithSameKey)
+                .when()
+                .post("/api/v1/jobs/create")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("key", equalTo("abcdef"))
+                .body("title", equalTo("Updated Title"));
+
+        List<Job> jobs = jobRepository.findAll();
+        assertEquals(1, jobs.size());
     }
 }
