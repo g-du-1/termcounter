@@ -55,10 +55,15 @@ class JobControllerTest {
 
     @Test
     void shouldSaveJob() {
-        // TODO Check the rest of the fields
         JobDTO jobDTO = new JobDTO();
         jobDTO.setKey("abcdef");
         jobDTO.setTitle("Software Engineer");
+        jobDTO.setDescriptionTxt("Description Text");
+        jobDTO.setEmployer("Employer");
+        jobDTO.setLocation("Location");
+        jobDTO.setUrl("https://example.com");
+        jobDTO.setSalaryMin(45000);
+        jobDTO.setSalaryMax(75000);
 
         given()
                 .contentType(ContentType.JSON)
@@ -68,7 +73,13 @@ class JobControllerTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("key", equalTo("abcdef"))
-                .body("title", equalTo("Software Engineer"));
+                .body("title", equalTo("Software Engineer"))
+                .body("descriptionTxt", equalTo("Description Text"))
+                .body("employer", equalTo("Employer"))
+                .body("location", equalTo("Location"))
+                .body("url", equalTo("https://example.com"))
+                .body("salaryMin", equalTo(45000))
+                .body("salaryMax", equalTo(75000));
     }
 
     @Test
@@ -76,12 +87,24 @@ class JobControllerTest {
         Job existingJob = new Job();
         existingJob.setKey("abcdef");
         existingJob.setTitle("Original Title");
+        existingJob.setDescriptionTxt("Original Text");
+        existingJob.setEmployer("Original Employer");
+        existingJob.setLocation("Original Location");
+        existingJob.setUrl("https://original.example.com");
+        existingJob.setSalaryMin(20000);
+        existingJob.setSalaryMax(30000);
 
         jobRepository.save(existingJob);
 
         JobDTO newJobWithSameKey = new JobDTO();
         newJobWithSameKey.setKey("abcdef");
         newJobWithSameKey.setTitle("Updated Title");
+        newJobWithSameKey.setDescriptionTxt("Updated Text");
+        newJobWithSameKey.setEmployer("Updated Employer");
+        newJobWithSameKey.setLocation("Updated Location");
+        newJobWithSameKey.setUrl("https://updated.example.com");
+        newJobWithSameKey.setSalaryMin(70000);
+        newJobWithSameKey.setSalaryMax(90000);
 
         given()
                 .contentType(ContentType.JSON)
@@ -91,7 +114,13 @@ class JobControllerTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("key", equalTo("abcdef"))
-                .body("title", equalTo("Updated Title"));
+                .body("title", equalTo("Updated Title"))
+                .body("descriptionTxt", equalTo("Updated Text"))
+                .body("employer", equalTo("Updated Employer"))
+                .body("location", equalTo("Updated Location"))
+                .body("url", equalTo("https://updated.example.com"))
+                .body("salaryMin", equalTo(70000))
+                .body("salaryMax", equalTo(90000));
 
         List<Job> jobs = jobRepository.findAll();
         assertEquals(1, jobs.size());

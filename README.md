@@ -1,7 +1,6 @@
 # termcounter
 
 ## TODO
-- TDD from scratch
 - Dockerise
 
 ## Usage

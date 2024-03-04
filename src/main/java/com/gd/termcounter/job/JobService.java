@@ -1,6 +1,7 @@
 package com.gd.termcounter.job;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,10 +19,7 @@ public class JobService {
 
         if (jobRepository.existsByKey(jobKey)) {
             Job existingJob = jobRepository.findByKey(jobKey);
-            existingJob.setTitle(job.getTitle());
-            existingJob.setDescriptionTxt(job.getDescriptionTxt());
-            // TODO Rest of the fields
-
+            BeanUtils.copyProperties(job, existingJob);
             return jobRepository.save(existingJob);
         } else {
             return jobRepository.save(job);

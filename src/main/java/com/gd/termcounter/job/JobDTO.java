@@ -7,8 +7,8 @@ public class JobDTO {
     private String employer;
     private String location;
     private String url;
-    private Double salaryMin;
-    private Double salaryMax;
+    private int salaryMin;
+    private int salaryMax;
 
     public String getKey() {
         return key;
@@ -58,19 +58,19 @@ public class JobDTO {
         this.location = location;
     }
 
-    public Double getSalaryMin() {
+    public int getSalaryMin() {
         return salaryMin;
     }
 
-    public void setSalaryMin(Double salaryMin) {
+    public void setSalaryMin(int salaryMin) {
         this.salaryMin = salaryMin;
     }
 
-    public Double getSalaryMax() {
+    public int getSalaryMax() {
         return salaryMax;
     }
 
-    public void setSalaryMax(Double salaryMax) {
+    public void setSalaryMax(int salaryMax) {
         this.salaryMax = salaryMax;
     }
 }
