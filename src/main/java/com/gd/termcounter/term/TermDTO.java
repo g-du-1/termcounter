@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 public class TermDTO {
     @NotBlank(message = "Field 'name' cannot be blank")
     private String name;
-    private int count;
+    private int count = 1;
 
     public String getName() {
         return name;

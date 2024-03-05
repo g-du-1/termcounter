@@ -82,4 +82,20 @@ class TermControllerTest {
             .statusCode(HttpStatus.BAD_REQUEST.value())
             .body("message", equalTo("Field 'name' cannot be blank"));
     }
+
+    @Test
+    void shouldSaveCountAsOneIfNotProvided() {
+        TermDTO termDTO = new TermDTO();
+        termDTO.setName("term");
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(termDTO)
+        .when()
+            .post("/api/v1/terms/save")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("name", equalTo("term"))
+            .body("count", equalTo(1));
+    }
 }
