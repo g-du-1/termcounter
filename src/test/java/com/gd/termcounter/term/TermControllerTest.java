@@ -1,6 +1,5 @@
 package com.gd.termcounter.term;
 
-import com.gd.termcounter.job.JobRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.AfterAll;
@@ -15,15 +14,18 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TermControllerTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
     @Autowired
-    JobRepository jobRepository;
+    TermRepository termRepository;
 
     @LocalServerPort
     private Integer port;
@@ -48,7 +50,7 @@ class TermControllerTest {
     @BeforeEach
     void setUp() {
         RestAssured.baseURI = "http://localhost:" + port;
-        jobRepository.deleteAll();
+        termRepository.deleteAll();
     }
 
     @Test
@@ -97,5 +99,31 @@ class TermControllerTest {
             .statusCode(HttpStatus.OK.value())
             .body("name", equalTo("term"))
             .body("count", equalTo(1));
+    }
+
+    @Test
+    void updatesExistingTermWithNoDuplicates() {
+        Term existingTerm = new Term();
+        existingTerm.setName("term");
+        existingTerm.setCount(6);
+
+        termRepository.save(existingTerm);
+
+        TermDTO newTerm = new TermDTO();
+        newTerm.setName("term");
+        newTerm.setCount(9);
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(newTerm)
+        .when()
+            .post("/api/v1/terms/save")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("name", equalTo("term"))
+            .body("count", equalTo(9));
+
+        List<Term> terms = termRepository.findAll();
+        assertEquals(1, terms.size());
     }
 }

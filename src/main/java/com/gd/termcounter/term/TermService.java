@@ -12,6 +12,14 @@ public class TermService {
     }
 
     public Term saveTerm(Term term) {
-        return termRepository.save(term);
+        String termName = term.getName();
+
+        if (termRepository.existsByName(termName)) {
+            Term existingTerm = termRepository.findByName(termName);
+            existingTerm.setCount(term.getCount());
+            return termRepository.save(existingTerm);
+        } else {
+            return termRepository.save(term);
+        }
     }
 }
