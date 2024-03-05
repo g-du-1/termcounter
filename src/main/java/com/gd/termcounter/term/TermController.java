@@ -2,6 +2,7 @@ package com.gd.termcounter.term;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class TermController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Term> saveTerm(@RequestBody TermDTO termDTO) throws JsonProcessingException {
+    public ResponseEntity<Term> saveTerm(@Valid @RequestBody TermDTO termDTO) throws JsonProcessingException {
         String dtoString = objectMapper.writeValueAsString(termDTO);
         Term term = objectMapper.readValue(dtoString, Term.class);
 

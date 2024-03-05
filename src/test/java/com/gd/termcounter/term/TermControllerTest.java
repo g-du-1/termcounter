@@ -67,4 +67,19 @@ class TermControllerTest {
             .body("name", equalTo("term"))
             .body("count", equalTo(5));
     }
+
+    @Test
+    void shouldNotSaveTermWithNoName() {
+        TermDTO termDTO = new TermDTO();
+        termDTO.setCount(5);
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(termDTO)
+        .when()
+            .post("/api/v1/terms/save")
+        .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("message", equalTo("Field 'name' cannot be blank"));
+    }
 }
