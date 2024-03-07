@@ -7,8 +7,6 @@ export const saveTerms = (jobDesc: string) => {
     headers: {
       "Content-Type": "application/json",
     },
-    onload: (response: Response) => {
-      console.log("Terms saved: ", response);
-    },
+    onload: (_: Response) => {},
   });
 };

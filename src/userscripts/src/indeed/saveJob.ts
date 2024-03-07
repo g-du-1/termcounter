@@ -9,8 +9,6 @@ export const saveJob = (jobData: JobData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    onload: (response: Response) => {
-      console.log("Job saved: ", response);
-    },
+    onload: (_: Response) => {},
   });
 };
