@@ -39,3 +39,8 @@ export type JobResponse = {
     };
   };
 };
+
+export type JobHtmlElemData = {
+  jobKey: string | null;
+  internalUrl: string | null;
+};

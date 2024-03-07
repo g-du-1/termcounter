@@ -1,5 +1,7 @@
-export const getJobKeys = (page: string) => {
-  const result: string[] = [];
+import { JobHtmlElemData } from "./types.ts";
+
+export const getJobHtmlData = (page: string) => {
+  const result: JobHtmlElemData[] = [];
 
   const parser = new DOMParser();
   const dom = parser?.parseFromString(page, "text/html");
@@ -10,7 +12,9 @@ export const getJobKeys = (page: string) => {
     const currJobElem = jobElems?.[i];
 
     const jobKey = currJobElem?.getAttribute("data-jk");
-    jobKey && result.push(jobKey);
+    const internalUrl = currJobElem?.getAttribute("href");
+
+    result.push({ jobKey, internalUrl });
   }
 
   return result;
