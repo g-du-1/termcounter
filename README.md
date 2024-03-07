@@ -2,6 +2,7 @@
 
 ## TODO
 - Dockerise
+- Client - tampermonkey script cross domain request GM_xmlhttprequesr
 
 ## Usage
 
