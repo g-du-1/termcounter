@@ -1,8 +1,8 @@
 # termcounter
 
 ## TODO
+- Selenium instead of script (TDD if poss)
 - Dockerise
-- Client - tampermonkey script cross domain request GM_xmlhttprequesr
 
 ## Usage
 
