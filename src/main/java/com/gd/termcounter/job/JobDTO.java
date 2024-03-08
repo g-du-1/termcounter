@@ -3,12 +3,12 @@ package com.gd.termcounter.job;
 public class JobDTO {
     private String key;
     private String title;
-    private String employer;
     private String descriptionTxt;
-    private String url;
+    private String employer;
     private String location;
-    private String salaryMin;
-    private String salaryMax;
+    private String url;
+    private int salaryMin;
+    private int salaryMax;
 
     public String getKey() {
         return key;
@@ -16,6 +16,14 @@ public class JobDTO {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getEmployer() {
@@ -50,27 +58,19 @@ public class JobDTO {
         this.location = location;
     }
 
-    public String getSalaryMin() {
+    public int getSalaryMin() {
         return salaryMin;
     }
 
-    public void setSalaryMin(String salaryMin) {
+    public void setSalaryMin(int salaryMin) {
         this.salaryMin = salaryMin;
     }
 
-    public String getSalaryMax() {
+    public int getSalaryMax() {
         return salaryMax;
     }
 
-    public void setSalaryMax(String salaryMax) {
+    public void setSalaryMax(int salaryMax) {
         this.salaryMax = salaryMax;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

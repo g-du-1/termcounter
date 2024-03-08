@@ -1,6 +1,7 @@
 package com.gd.termcounter.job;
 
-import org.springframework.http.HttpStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,46 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/jobs")
 public class JobController {
     private final JobService jobService;
+    private final ObjectMapper objectMapper;
 
-    public JobController(JobService jobService) {
+    public JobController(JobService jobService, ObjectMapper objectMapper) {
         this.jobService = jobService;
-    }
-
-    private Job mapJob(JobDTO jobDTO) {
-        Job job = new Job();
-
-        job.setTitle(jobDTO.getTitle());
-        job.setEmployer(jobDTO.getEmployer());
-        job.setKey(jobDTO.getKey());
-        job.setLocation(jobDTO.getLocation());
-        job.setUrl(jobDTO.getUrl());
-        job.setDescriptionTxt(jobDTO.getDescriptionTxt());
-
-        if (jobDTO.getSalaryMin() != null) {
-            job.setSalaryMin(parseDoubleOrNull(jobDTO.getSalaryMin()));
-        }
-
-        if (jobDTO.getSalaryMax() != null) {
-            job.setSalaryMax(parseDoubleOrNull(jobDTO.getSalaryMax()));
-        }
-
-        return job;
-    }
-
-    private Double parseDoubleOrNull(String value) {
-        if (value != null && !value.isEmpty()) {
-            return Double.parseDouble(value);
-        } else {
-            return null;
-        }
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Job> saveJob(@RequestBody JobDTO jobDTO) {
-        Job mappedJob = mapJob(jobDTO);
+    public ResponseEntity<Job> saveJob(@RequestBody JobDTO jobDTO) throws JsonProcessingException {
+        String dtoString = objectMapper.writeValueAsString(jobDTO);
+        Job job = objectMapper.readValue(dtoString, Job.class);
 
-        Job savedJob = jobService.saveJob(mappedJob);
+        Job savedJob = jobService.saveJob(job);
 
-        return new ResponseEntity<>(savedJob, HttpStatus.CREATED);
+        return ResponseEntity.ok(savedJob);
     }
 }

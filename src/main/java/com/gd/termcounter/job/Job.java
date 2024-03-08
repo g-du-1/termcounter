@@ -4,25 +4,26 @@ import jakarta.persistence.*;
 
 @Entity
 public class Job {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String key;
 
     @Column(columnDefinition = "TEXT")
     private String title;
-    private String employer;
 
     @Column(columnDefinition = "TEXT")
     private String descriptionTxt;
 
+    private String employer;
+
+    private String location;
     @Column(columnDefinition = "TEXT")
     private String url;
-    private String location;
-    private Double salaryMin;
-    private Double salaryMax;
+    private int salaryMin;
+    private int salaryMax;
 
     public String getKey() {
         return key;
@@ -30,6 +31,14 @@ public class Job {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getEmployer() {
@@ -64,27 +73,19 @@ public class Job {
         this.location = location;
     }
 
-    public Double getSalaryMin() {
+    public int getSalaryMin() {
         return salaryMin;
     }
 
-    public void setSalaryMin(Double salaryMin) {
+    public void setSalaryMin(int salaryMin) {
         this.salaryMin = salaryMin;
     }
 
-    public Double getSalaryMax() {
+    public int getSalaryMax() {
         return salaryMax;
     }
 
-    public void setSalaryMax(Double salaryMax) {
+    public void setSalaryMax(int salaryMax) {
         this.salaryMax = salaryMax;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }
