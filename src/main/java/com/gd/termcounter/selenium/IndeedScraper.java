@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static com.gd.termcounter.selenium.Helpers.*;
 import static com.gd.termcounter.selenium.Helpers.getWebDriver;
 import static com.gd.termcounter.selenium.Helpers.randomWait;
 
@@ -16,7 +17,7 @@ public class IndeedScraper {
     public static void main(String[] args) throws URISyntaxException, IOException {
         WebDriver driver = getWebDriver();
 
-        List<String> pageUrls = Helpers.getPageUrls(2);
+        List<String> pageUrls = getPageUrls(2);
 
         for (String pageUrl : pageUrls) {
             driver.get(pageUrl);
@@ -24,16 +25,14 @@ public class IndeedScraper {
             List<WebElement> jobLinks = driver.findElements(By.cssSelector("[data-jk]"));
 
             for (WebElement jobLink : jobLinks) {
-                Object jobResponse = Helpers.getJsonJobData(driver, jobLink);
-                JobDTO jobDTO = Helpers.mapJsResultToDTO(jobResponse);
+                Object jobResponse = getJsonJobData(driver, jobLink);
+                JobDTO jobDTO = mapJsResultToDTO(jobResponse);
 
-                Helpers.saveJob(jobDTO);
+                saveJob(jobDTO);
+
                 randomWait();
             }
-
-            randomWait();
         }
-
 
         driver.quit();
     }
