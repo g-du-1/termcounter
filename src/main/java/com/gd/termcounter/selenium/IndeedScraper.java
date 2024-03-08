@@ -28,6 +28,7 @@ public class IndeedScraper {
                 JobDTO jobDTO = Helpers.mapJsResultToDTO(jobResponse);
 
                 Helpers.saveJob(jobDTO);
+                randomWait();
             }
 
             randomWait();
