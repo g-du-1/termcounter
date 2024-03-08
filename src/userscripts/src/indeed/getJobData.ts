@@ -1,6 +1,6 @@
 import { JobData, JobResponse } from "./types.ts";
 
-export const getJobData = async (jobKey: string): Promise<JobData> => {
+export const getJobData = async (jobKey: string | null): Promise<JobData> => {
   const resp = await fetch(
     `https://uk.indeed.com/viewjob?jk=${jobKey}&viewtype=embedded&xkcb=SoBi67M3E9Jz922yoh0PbzkdCdPP&continueUrl=%2Fjobs%3Fq%3Dsoftware%2Bengineer&xfps=0479a2ba-ec16-44dd-9c8f-ce5cc16ed6c6&spa=1&hidecmpheader=0`,
     {
