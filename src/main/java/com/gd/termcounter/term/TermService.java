@@ -2,7 +2,9 @@ package com.gd.termcounter.term;
 
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TermService {
@@ -26,19 +28,29 @@ public class TermService {
     }
 
     public List<Term> countTerms(String jobDescription) {
+        Set<String> excludedWords = new HashSet<>() {{
+            add("and");
+            add("a");
+            add("the");
+        }};
+
         String[] words = jobDescription.split(" ");
 
         for (String word : words) {
-            Term term = new Term();
-            term.setName(word.toLowerCase());
+            String lowerCaseWord = word.toLowerCase();
 
-            Term existingTerm = termRepository.findByName(term.getName());
+            if (!excludedWords.contains(lowerCaseWord)) {
+                Term term = new Term();
+                term.setName(lowerCaseWord);
 
-            if (existingTerm != null) {
-                term.setCount(existingTerm.getCount() + 1);
+                Term existingTerm = termRepository.findByName(lowerCaseWord);
+
+                if (existingTerm != null) {
+                    term.setCount(existingTerm.getCount() + 1);
+                }
+
+                saveTerm(term);
             }
-
-            saveTerm(term);
         }
 
         return termRepository.findAll();
