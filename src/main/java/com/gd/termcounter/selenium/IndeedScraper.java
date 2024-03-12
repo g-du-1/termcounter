@@ -23,6 +23,10 @@ public class IndeedScraper {
         for (String pageUrl : pageUrls) {
             driver.get(pageUrl);
 
+            System.out.println("-----------------------");
+            System.out.println("Loading URL: " + pageUrl + '.');
+            System.out.println("-----------------------");
+
             List<WebElement> jobLinks = driver.findElements(By.cssSelector("[data-jk]"));
 
             for (WebElement jobLink : jobLinks) {
@@ -38,6 +42,7 @@ public class IndeedScraper {
             }
         }
 
+        System.out.println("Finished! Quitting driver.");
         driver.quit();
     }
 }
