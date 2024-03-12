@@ -1,6 +1,7 @@
 package com.gd.termcounter.selenium;
 
 import com.gd.termcounter.job.JobDTO;
+import com.gd.termcounter.term.CountTermsDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,9 +27,12 @@ public class IndeedScraper {
 
             for (WebElement jobLink : jobLinks) {
                 Object jobResponse = getJsonJobData(driver, jobLink);
-                JobDTO jobDTO = mapJsResultToDTO(jobResponse);
 
+                JobDTO jobDTO = mapJsResultToDTO(jobResponse);
                 saveJob(jobDTO);
+
+                CountTermsDTO countTermsDTO = new CountTermsDTO(jobDTO.getDescriptionTxt());
+                countTerms(countTermsDTO);
 
                 randomWait();
             }

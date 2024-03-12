@@ -3,6 +3,7 @@ package com.gd.termcounter.selenium;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gd.termcounter.job.JobDTO;
+import com.gd.termcounter.term.CountTermsDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -93,6 +94,14 @@ public class Helpers {
         HttpEntity<JobDTO> jobHttpEntity = new HttpEntity<>(dto, headers);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForEntity(uri, jobHttpEntity, String.class);
+    }
+
+    public static void countTerms(CountTermsDTO dto) throws URISyntaxException {
+        URI uri = new URI("http://127.0.0.1:8080/api/v1/terms/count");
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<CountTermsDTO> ctHttpEntity = new HttpEntity<>(dto, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(uri, ctHttpEntity, String.class);
     }
 
     public static JobDTO mapJsResultToDTO(Object response) throws JsonProcessingException {
