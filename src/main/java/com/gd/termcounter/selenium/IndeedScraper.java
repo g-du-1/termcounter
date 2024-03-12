@@ -17,7 +17,7 @@ public class IndeedScraper {
     public static void main(String[] args) throws URISyntaxException, IOException {
         WebDriver driver = getWebDriver();
 
-        List<String> pageUrls = getPageUrls(2);
+        List<String> pageUrls = getPageUrls(1, 2);
 
         for (String pageUrl : pageUrls) {
             driver.get(pageUrl);

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HelpersTest {
     @Test
     public void testGeneratesListOfUrls() {
-        List<String> pageUrls = Helpers.getPageUrls(5);
+        List<String> pageUrls = Helpers.getPageUrls(1, 5);
 
         List<String> expected = new ArrayList<>();
         expected.add("https://uk.indeed.com/jobs?q=software+engineer");
@@ -18,6 +18,20 @@ public class HelpersTest {
         expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=20");
         expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=30");
         expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=40");
+
+        assertEquals(pageUrls, expected);
+    }
+
+    @Test
+    public void testHandlesSettingStartPages() {
+        List<String> pageUrls = Helpers.getPageUrls(3, 5);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=20");
+        expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=30");
+        expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=40");
+        expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=50");
+        expected.add("https://uk.indeed.com/jobs?q=software+engineer&start=60");
 
         assertEquals(pageUrls, expected);
     }

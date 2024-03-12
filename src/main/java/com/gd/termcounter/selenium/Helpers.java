@@ -63,13 +63,25 @@ public class Helpers {
         }
     }
 
-    public static List<String> getPageUrls(int nOfPages) {
+    public static List<String> getPageUrls(int startPage, int nOfPages) {
         List<String> result = new ArrayList<>();
 
-        result.add("https://uk.indeed.com/jobs?q=software+engineer");
+        int paginationNum, visitedPages;
 
-        for (int i = 1; i < nOfPages; i++) {
-            result.add("https://uk.indeed.com/jobs?q=software+engineer&start=" + i * 10);
+        if (startPage == 1) {
+            result.add("https://uk.indeed.com/jobs?q=software+engineer");
+            paginationNum = 10;
+            visitedPages = 1;
+        } else {
+            paginationNum = (startPage - 1) * 10;
+            visitedPages = 0;
+        }
+
+        while (visitedPages < nOfPages) {
+            result.add("https://uk.indeed.com/jobs?q=software+engineer&start=" + paginationNum);
+
+            paginationNum += 10;
+            visitedPages++;
         }
 
         return result;
