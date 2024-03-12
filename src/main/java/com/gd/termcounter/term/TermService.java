@@ -29,7 +29,7 @@ public class TermService {
     public List<Term> countTerms(String jobDescription) {
         Set<String> excludedWords = Exclusions.excludedWords;
 
-        String[] words = jobDescription.split(" ");
+        String[] words = jobDescription.split("\\s+");
 
         for (String word : words) {
             String lowerCaseWord = word.replaceAll(",", "").toLowerCase();
