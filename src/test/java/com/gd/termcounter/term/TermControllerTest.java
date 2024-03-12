@@ -130,7 +130,7 @@ class TermControllerTest {
     @Test
     void countsTerms() {
         CountTermsDTO countTermsDTO = new CountTermsDTO();
-        countTermsDTO.setDescription("description job job");
+        countTermsDTO.setDescription("description Job job");
 
         given()
             .contentType(ContentType.JSON)

@@ -30,9 +30,9 @@ public class TermService {
 
         for (String word : words) {
             Term term = new Term();
-            term.setName(word);
+            term.setName(word.toLowerCase());
 
-            Term existingTerm = termRepository.findByName(word);
+            Term existingTerm = termRepository.findByName(term.getName());
 
             if (existingTerm != null) {
                 term.setCount(existingTerm.getCount() + 1);
