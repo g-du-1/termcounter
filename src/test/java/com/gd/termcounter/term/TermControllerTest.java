@@ -130,7 +130,7 @@ class TermControllerTest {
     @Test
     void countsTerms() {
         CountTermsDTO countTermsDTO = new CountTermsDTO();
-        countTermsDTO.setDescription("description. (job) Job\n\njob, and and, the a");
+        countTermsDTO.setDescription("description. (job) description: Job\n\njob, and and, the a");
 
         given()
             .contentType(ContentType.JSON)
@@ -140,7 +140,7 @@ class TermControllerTest {
         .then()
             .statusCode(HttpStatus.OK.value())
             .body("[0].name", equalTo("description"))
-            .body("[0].count", equalTo(1))
+            .body("[0].count", equalTo(2))
             .body("[1].name", equalTo("job"))
             .body("[1].count", equalTo(3));
 
