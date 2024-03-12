@@ -11,7 +11,7 @@ public class Term {
     @Column(unique = true)
     private String name;
 
-    private int count;
+    private int count = 1;
 
     public String getName() {
         return name;

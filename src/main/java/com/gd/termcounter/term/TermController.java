@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,21 +33,11 @@ public class TermController {
     }
 
     @PostMapping("/count")
-    public ResponseEntity<List<Term>> countTerms(@Valid @RequestBody CountTermsDTO countTermsDTO) {
-        // TODO
+    public ResponseEntity<List<Term>> countTerms(@RequestBody CountTermsDTO countTermsDTO) {
+        String jobDescription = countTermsDTO.getDescription();
 
-        ArrayList<Term> result = new ArrayList<>();
-        Term term = new Term();
-        term.setName("description");
-        term.setCount(1);
+        List<Term> savedTerms = termService.countTerms(jobDescription);
 
-        Term term2 = new Term();
-        term2.setName("job");
-        term2.setCount(2);
-
-        result.add(term);
-        result.add(term2);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(savedTerms);
     }
 }

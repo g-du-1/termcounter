@@ -144,8 +144,7 @@ class TermControllerTest {
             .body("[1].name", equalTo("job"))
             .body("[1].count", equalTo(2));
 
-        // TODO
-        // List<Term> terms = termRepository.findAll();
-        // assertEquals(2, terms.size());
+         List<Term> terms = termRepository.findAll();
+         assertEquals(2, terms.size());
     }
 }

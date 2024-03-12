@@ -1,7 +1,6 @@
 # termcounter
 
 ## TODO
-- Selenium instead of script (TDD if poss)
 - Dockerise
 
 ## Usage
