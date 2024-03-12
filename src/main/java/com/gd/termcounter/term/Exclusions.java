@@ -43,5 +43,18 @@ public class Exclusions {
         add("within");
         add("their");
         add("also");
+        add("or");
+        add("at");
+        add("-");
+        add("experience");
+        add("more");
+        add("&");
+        add("other");
+        add("new");
+        add("help");
+        add("code");
+        add("people");
+        add("one");
+        add("but");
     }};
 }
