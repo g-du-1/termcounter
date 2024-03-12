@@ -2,7 +2,6 @@ package com.gd.termcounter.term;
 
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,11 +27,7 @@ public class TermService {
     }
 
     public List<Term> countTerms(String jobDescription) {
-        Set<String> excludedWords = new HashSet<>() {{
-            add("and");
-            add("a");
-            add("the");
-        }};
+        Set<String> excludedWords = Exclusions.excludedWords;
 
         String[] words = jobDescription.split(" ");
 
