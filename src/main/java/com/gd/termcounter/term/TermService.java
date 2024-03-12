@@ -32,7 +32,7 @@ public class TermService {
         String[] words = jobDescription.split(" ");
 
         for (String word : words) {
-            String lowerCaseWord = word.toLowerCase();
+            String lowerCaseWord = word.replaceAll(",", "").toLowerCase();
 
             if (!excludedWords.contains(lowerCaseWord)) {
                 Term term = new Term();
