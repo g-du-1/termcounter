@@ -1,6 +1,7 @@
 package com.gd.termcounter.selenium;
 
 import com.gd.termcounter.job.JobDTO;
+import com.gd.termcounter.shared.ConsoleColors;
 import com.gd.termcounter.term.CountTermsDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,7 @@ public class IndeedScraper {
             driver.get(pageUrl);
 
             System.out.println("-----------------------");
-            System.out.println("Loading URL: " + pageUrl + '.');
+            System.out.println(ConsoleColors.CYAN + "Loading URL: " + pageUrl + '.' + ConsoleColors.RESET);
             System.out.println("-----------------------");
 
             List<WebElement> jobLinks = driver.findElements(By.cssSelector("[data-jk]"));
@@ -42,7 +43,7 @@ public class IndeedScraper {
             }
         }
 
-        System.out.println("Finished! Quitting driver.");
+        System.out.println(ConsoleColors.GREEN + "Finished! Quitting driver." + ConsoleColors.RESET);
         driver.quit();
     }
 }

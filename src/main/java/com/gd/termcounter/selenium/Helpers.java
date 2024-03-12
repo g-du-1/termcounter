@@ -3,6 +3,7 @@ package com.gd.termcounter.selenium;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gd.termcounter.job.JobDTO;
+import com.gd.termcounter.shared.ConsoleColors;
 import com.gd.termcounter.term.CountTermsDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +26,7 @@ import java.util.Random;
 
 public class Helpers {
     static WebDriver getWebDriver() {
-        System.out.println("Getting Webdriver.");
+        System.out.println(ConsoleColors.GREEN + "Getting Webdriver." + ConsoleColors.RESET);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("debuggerAddress", "localhost:9222");
         return new ChromeDriver(chromeOptions);
@@ -35,7 +36,7 @@ public class Helpers {
         Random random = new Random();
         int randomNumber = random.nextInt(10) + 1;
         System.out.println("-------------------------------------------");
-        System.out.println("Waiting for " + randomNumber + " seconds.");
+        System.out.println(ConsoleColors.YELLOW + "Waiting for " + randomNumber + " seconds." + ConsoleColors.RESET);
         System.out.println("-------------------------------------------");
 
         try {
@@ -90,7 +91,7 @@ public class Helpers {
     }
 
     public static void saveJob(JobDTO dto) throws URISyntaxException {
-        System.out.println("Saving job: " + dto.getTitle() + '.');
+        System.out.println("Saving job: " + ConsoleColors.PURPLE + dto.getTitle() + " -- " + dto.getEmployer() + ConsoleColors.RESET +  '.');
         URI uri = new URI("http://127.0.0.1:8080/api/v1/jobs/save");
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<JobDTO> jobHttpEntity = new HttpEntity<>(dto, headers);
@@ -115,7 +116,7 @@ public class Helpers {
     }
 
     public static Object getJsonJobData(WebDriver driver, WebElement jobLink) throws IOException {
-        System.out.println("Getting JSON data for: " + jobLink.getAttribute("data-jk") + ".");
+        System.out.println("Getting JSON data for: " + ConsoleColors.PURPLE + jobLink.getAttribute("data-jk") + ConsoleColors.RESET + ".");
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String javascriptCode = new String(Files.readAllBytes(Paths.get("C:\\Users\\dudas\\termcounter\\src\\main\\java\\com\\gd\\termcounter\\selenium\\request.js")));
         javascriptCode = javascriptCode.replace("{{jobKey}}", jobLink.getAttribute("data-jk"));
