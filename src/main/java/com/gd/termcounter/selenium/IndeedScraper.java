@@ -24,9 +24,9 @@ public class IndeedScraper {
         for (String pageUrl : pageUrls) {
             driver.get(pageUrl);
 
-            System.out.println("-----------------------");
+            System.out.println("-------------------------------------------");
             System.out.println(ConsoleColors.CYAN + "Loading URL: " + pageUrl + '.' + ConsoleColors.RESET);
-            System.out.println("-----------------------");
+            System.out.println("-------------------------------------------");
 
             randomWait();
 
