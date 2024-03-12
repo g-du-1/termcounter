@@ -28,6 +28,8 @@ public class IndeedScraper {
             System.out.println(ConsoleColors.CYAN + "Loading URL: " + pageUrl + '.' + ConsoleColors.RESET);
             System.out.println("-----------------------");
 
+            randomWait();
+
             List<WebElement> jobLinks = driver.findElements(By.cssSelector("[data-jk]"));
 
             for (WebElement jobLink : jobLinks) {
