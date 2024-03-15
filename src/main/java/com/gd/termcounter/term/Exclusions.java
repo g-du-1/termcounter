@@ -97,7 +97,6 @@ public class Exclusions {
         add("teams");
         add("do");
         add("what");
-        add("job");
         add("environment");
         add("please");
         add("understanding");

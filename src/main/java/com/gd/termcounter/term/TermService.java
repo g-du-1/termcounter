@@ -1,5 +1,7 @@
 package com.gd.termcounter.term;
 
+import com.gd.termcounter.job.Job;
+import com.gd.termcounter.job.JobRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +11,11 @@ import java.util.Set;
 public class TermService {
 
     private final TermRepository termRepository;
+    private final JobRepository jobRepository;
 
-    public TermService(TermRepository termRepository) {
+    public TermService(TermRepository termRepository, JobRepository jobRepository) {
         this.termRepository = termRepository;
+        this.jobRepository = jobRepository;
     }
 
     public Term saveTerm(Term term) {
@@ -26,25 +30,29 @@ public class TermService {
         }
     }
 
-    public List<Term> countTerms(String jobDescription) {
-        Set<String> excludedWords = Exclusions.excludedWords;
+    public List<Term> countTerms(String jobDescription, String jobKey) {
+        Job existingJob = jobRepository.findByKey(jobKey);
 
-        String[] words = jobDescription.split("\\s+");
+        if (existingJob == null) {
+            Set<String> excludedWords = Exclusions.excludedWords;
 
-        for (String word : words) {
-            String lowerCaseWord = word.replaceAll("[():,.]", "").toLowerCase();
+            String[] words = jobDescription.split("\\s+");
 
-            if (!excludedWords.contains(lowerCaseWord)) {
-                Term term = new Term();
-                term.setName(lowerCaseWord);
+            for (String word : words) {
+                String lowerCaseWord = word.replaceAll("[():,.]", "").toLowerCase();
 
-                Term existingTerm = termRepository.findByName(lowerCaseWord);
+                if (!excludedWords.contains(lowerCaseWord)) {
+                    Term term = new Term();
+                    term.setName(lowerCaseWord);
 
-                if (existingTerm != null) {
-                    term.setCount(existingTerm.getCount() + 1);
+                    Term existingTerm = termRepository.findByName(lowerCaseWord);
+
+                    if (existingTerm != null) {
+                        term.setCount(existingTerm.getCount() + 1);
+                    }
+
+                    saveTerm(term);
                 }
-
-                saveTerm(term);
             }
         }
 

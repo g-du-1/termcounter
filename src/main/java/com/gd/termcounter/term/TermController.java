@@ -35,8 +35,9 @@ public class TermController {
     @PostMapping("/count")
     public ResponseEntity<List<Term>> countTerms(@RequestBody CountTermsDTO countTermsDTO) {
         String jobDescription = countTermsDTO.getDescription();
+        String jobKey = countTermsDTO.getJobKey();
 
-        List<Term> savedTerms = termService.countTerms(jobDescription);
+        List<Term> savedTerms = termService.countTerms(jobDescription, jobKey);
 
         return ResponseEntity.ok(savedTerms);
     }

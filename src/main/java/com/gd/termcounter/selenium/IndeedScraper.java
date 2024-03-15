@@ -38,7 +38,7 @@ public class IndeedScraper {
                 JobDTO jobDTO = mapJsResultToDTO(jobResponse);
                 saveJob(jobDTO);
 
-                CountTermsDTO countTermsDTO = new CountTermsDTO(jobDTO.getDescriptionTxt());
+                CountTermsDTO countTermsDTO = new CountTermsDTO(jobDTO.getDescriptionTxt(), jobDTO.getKey());
                 countTerms(countTermsDTO);
 
                 randomWait();

@@ -1,5 +1,7 @@
 package com.gd.termcounter.term;
 
+import com.gd.termcounter.job.Job;
+import com.gd.termcounter.job.JobRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.AfterAll;
@@ -26,6 +28,9 @@ class TermControllerTest {
 
     @Autowired
     TermRepository termRepository;
+
+    @Autowired
+    JobRepository jobRepository;
 
     @LocalServerPort
     private Integer port;
@@ -144,7 +149,47 @@ class TermControllerTest {
             .body("[1].name", equalTo("job"))
             .body("[1].count", equalTo(3));
 
-         List<Term> terms = termRepository.findAll();
-         assertEquals(2, terms.size());
+        List<Term> terms = termRepository.findAll();
+        assertEquals(2, terms.size());
+    }
+
+    @Test
+    void doesNotCountTermsForAlreadySavedJobs() {
+        Job existingJob = new Job();
+        existingJob.setKey("key");
+        existingJob.setDescriptionTxt("job description");
+
+        jobRepository.save(existingJob);
+
+        Term termOne = new Term();
+        termOne.setName("job");
+        termOne.setCount(1);
+
+        termRepository.save(termOne);
+
+        Term termTwo = new Term();
+        termTwo.setName("description");
+        termTwo.setCount(1);
+
+        termRepository.save(termTwo);
+
+        CountTermsDTO countTermsDTO = new CountTermsDTO();
+        countTermsDTO.setJobKey("key");
+        countTermsDTO.setDescription("job description");
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(countTermsDTO)
+        .when()
+            .post("/api/v1/terms/count")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("[0].name", equalTo("job"))
+            .body("[0].count", equalTo(1))
+            .body("[1].name", equalTo("description"))
+            .body("[1].count", equalTo(1));
+
+        List<Term> terms = termRepository.findAll();
+        assertEquals(2, terms.size());
     }
 }
