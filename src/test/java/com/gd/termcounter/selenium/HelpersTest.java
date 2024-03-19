@@ -7,9 +7,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HelpersTest {
+class HelpersTest {
     @Test
-    public void testGeneratesListOfUrls() {
+    void testGeneratesListOfUrls() {
         List<String> pageUrls = Helpers.getPageUrls(1, 5);
 
         List<String> expected = new ArrayList<>();
@@ -23,7 +23,7 @@ public class HelpersTest {
     }
 
     @Test
-    public void testHandlesSettingStartPages() {
+    void testHandlesSettingStartPages() {
         List<String> pageUrls = Helpers.getPageUrls(3, 5);
 
         List<String> expected = new ArrayList<>();

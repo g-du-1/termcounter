@@ -3,6 +3,7 @@ package com.gd.termcounter.selenium;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gd.termcounter.job.JobDTO;
+import com.gd.termcounter.shared.Configuration;
 import com.gd.termcounter.shared.ConsoleColors;
 import com.gd.termcounter.term.CountTermsDTO;
 import org.openqa.selenium.By;
@@ -23,26 +24,38 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Helpers {
+    private static final Logger logger = Logger.getLogger(Helpers.class.getName());
+    private static final Random random = new Random();
+
+    private Helpers() {
+        throw new IllegalStateException("Utility class");
+    }
+
     static WebDriver getWebDriver() {
-        System.out.println(ConsoleColors.GREEN + "Getting Webdriver." + ConsoleColors.RESET);
+        logger.log(Level.INFO, () -> ConsoleColors.GREEN + "Getting Webdriver." + ConsoleColors.RESET);
+
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("debuggerAddress", "localhost:9222");
         return new ChromeDriver(chromeOptions);
     }
 
     static void randomWait() {
-        Random random = new Random();
-        int randomNumber = random.nextInt(10) + 1;
-        System.out.println("-------------------------------------------");
-        System.out.println(ConsoleColors.YELLOW + "Waiting for " + randomNumber + " seconds." + ConsoleColors.RESET);
-        System.out.println("-------------------------------------------");
+        long randomNumber = random.nextInt(10) + 1L;
+
+        logger.log(Level.INFO, () -> "-------------------------------------------");
+        logger.log(Level.INFO, () -> ConsoleColors.YELLOW + "Waiting for " + randomNumber + " seconds." + ConsoleColors.RESET);
+        logger.log(Level.INFO, () -> "-------------------------------------------");
 
         try {
             Thread.sleep(randomNumber * 1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e::getMessage);
+
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -52,7 +65,7 @@ public class Helpers {
         try {
             driver.findElement(bySelector).click();
         } catch (Exception e) {
-            System.out.println(bySelector + " not found. (clickElem)");
+            logger.log(Level.INFO, () -> bySelector + " not found. (clickElem)");
         }
     }
 
@@ -62,14 +75,15 @@ public class Helpers {
         try {
             driver.findElement(bySelector).sendKeys(value);
         } catch (Exception e) {
-            System.out.println(bySelector + " not found. (fillInput)");
+            logger.log(Level.INFO, () -> bySelector + " not found. (fillInput)");
         }
     }
 
     public static List<String> getPageUrls(int startPage, int nOfPages) {
         List<String> result = new ArrayList<>();
 
-        int paginationNum, visitedPages;
+        int paginationNum;
+        int visitedPages;
 
         if (startPage == 1) {
             result.add("https://uk.indeed.com/jobs?q=software+engineer");
@@ -91,8 +105,8 @@ public class Helpers {
     }
 
     public static void saveJob(JobDTO dto) throws URISyntaxException {
-        System.out.println("Saving job: " + ConsoleColors.PURPLE + dto.getTitle() + " -- " + dto.getEmployer() + ConsoleColors.RESET +  '.');
-        URI uri = new URI("http://127.0.0.1:8080/api/v1/jobs/save");
+        logger.log(Level.INFO, () -> "Saving job: " + ConsoleColors.PURPLE + dto.getTitle() + " -- " + dto.getEmployer() + ConsoleColors.RESET + '.');
+        URI uri = new URI(Configuration.SAVE_JOB_URL);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<JobDTO> jobHttpEntity = new HttpEntity<>(dto, headers);
         RestTemplate restTemplate = new RestTemplate();
@@ -100,8 +114,8 @@ public class Helpers {
     }
 
     public static void countTerms(CountTermsDTO dto) throws URISyntaxException {
-        System.out.println("Counting terms.");
-        URI uri = new URI("http://127.0.0.1:8080/api/v1/terms/count");
+        logger.log(Level.INFO, () -> "Counting terms.");
+        URI uri = new URI(Configuration.COUNT_TERMS_URL);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<CountTermsDTO> ctHttpEntity = new HttpEntity<>(dto, headers);
         RestTemplate restTemplate = new RestTemplate();
@@ -116,7 +130,7 @@ public class Helpers {
     }
 
     public static Object getJsonJobData(WebDriver driver, WebElement jobLink) throws IOException {
-        System.out.println("Getting JSON data for: " + ConsoleColors.PURPLE + jobLink.getAttribute("data-jk") + ConsoleColors.RESET + ".");
+        logger.log(Level.INFO, () -> "Getting JSON data for: " + ConsoleColors.PURPLE + jobLink.getAttribute("data-jk") + ConsoleColors.RESET + ".");
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String javascriptCode = new String(Files.readAllBytes(Paths.get("C:\\Users\\dudas\\termcounter\\src\\main\\java\\com\\gd\\termcounter\\selenium\\request.js")));
         javascriptCode = javascriptCode.replace("{{jobKey}}", jobLink.getAttribute("data-jk"));

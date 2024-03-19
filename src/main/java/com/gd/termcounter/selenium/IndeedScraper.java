@@ -10,12 +10,14 @@ import org.openqa.selenium.WebElement;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static com.gd.termcounter.selenium.Helpers.*;
-import static com.gd.termcounter.selenium.Helpers.getWebDriver;
-import static com.gd.termcounter.selenium.Helpers.randomWait;
 
 public class IndeedScraper {
+    private static final Logger logger = Logger.getLogger(IndeedScraper.class.getName());
+
     public static void main(String[] args) throws URISyntaxException, IOException {
         WebDriver driver = getWebDriver();
 
@@ -24,9 +26,9 @@ public class IndeedScraper {
         for (String pageUrl : pageUrls) {
             driver.get(pageUrl);
 
-            System.out.println("-------------------------------------------");
-            System.out.println(ConsoleColors.CYAN + "Loading URL: " + pageUrl + '.' + ConsoleColors.RESET);
-            System.out.println("-------------------------------------------");
+            logger.log(Level.INFO, () -> "-------------------------------------------");
+            logger.log(Level.INFO, () -> ConsoleColors.CYAN + "Loading URL: " + pageUrl + '.' + ConsoleColors.RESET);
+            logger.log(Level.INFO, () -> "-------------------------------------------");
 
             randomWait();
 
@@ -36,16 +38,16 @@ public class IndeedScraper {
                 Object jobResponse = getJsonJobData(driver, jobLink);
 
                 JobDTO jobDTO = mapJsResultToDTO(jobResponse);
-                saveJob(jobDTO);
-
                 CountTermsDTO countTermsDTO = new CountTermsDTO(jobDTO.getDescriptionTxt(), jobDTO.getKey());
+
                 countTerms(countTermsDTO);
+                saveJob(jobDTO);
 
                 randomWait();
             }
         }
 
-        System.out.println(ConsoleColors.GREEN + "Finished! Quitting driver." + ConsoleColors.RESET);
+        logger.log(Level.INFO, () -> ConsoleColors.GREEN + "Finished! Quitting driver." + ConsoleColors.RESET);
         driver.quit();
     }
 }

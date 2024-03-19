@@ -7,14 +7,13 @@ import { saveJob } from "./saveJob.ts";
 export const main = async () => {
   const pageUrls = buildPageUrls(2);
 
-  for (let i = 0; i < pageUrls.length; i++) {
-    const pageHtml = await getPageHtml(pageUrls[i]);
+  for (const element of pageUrls) {
+    const pageHtml = await getPageHtml(element);
     const jobElemHtmlData = getJobHtmlData(pageHtml);
 
-    for (let j = 0; j < jobElemHtmlData.length; j++) {
-      const jobData = await getJobData(jobElemHtmlData[j].jobKey);
+    for (const element of jobElemHtmlData) {
+      const jobData = await getJobData(element.jobKey);
       saveJob(jobData);
-      // saveTerms(jobData.descriptionTxt);
     }
   }
 };
