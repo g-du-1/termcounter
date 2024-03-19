@@ -6,17 +6,17 @@ import com.gd.termcounter.term.CountTermsDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.gd.termcounter.selenium.Helpers.*;
 
 public class IndeedScraper {
-    private static final Logger logger = Logger.getLogger(IndeedScraper.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(IndeedScraper.class);
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         WebDriver driver = getWebDriver();
@@ -26,9 +26,7 @@ public class IndeedScraper {
         for (String pageUrl : pageUrls) {
             driver.get(pageUrl);
 
-            logger.log(Level.INFO, () -> "-------------------------------------------");
-            logger.log(Level.INFO, () -> ConsoleColors.CYAN + "Loading URL: " + pageUrl + '.' + ConsoleColors.RESET);
-            logger.log(Level.INFO, () -> "-------------------------------------------");
+            logger.info(ConsoleColors.CYAN + "Loading URL: {}" + ConsoleColors.RESET, pageUrl);
 
             randomWait();
 
@@ -47,7 +45,7 @@ public class IndeedScraper {
             }
         }
 
-        logger.log(Level.INFO, () -> ConsoleColors.GREEN + "Finished! Quitting driver." + ConsoleColors.RESET);
+        logger.info(ConsoleColors.GREEN + "Finished! Quitting driver." + ConsoleColors.RESET);
         driver.quit();
     }
 }

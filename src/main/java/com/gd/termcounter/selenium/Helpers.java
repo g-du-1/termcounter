@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
@@ -24,11 +26,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Helpers {
-    private static final Logger logger = Logger.getLogger(Helpers.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Helpers.class);
     private static final Random random = new Random();
 
     private Helpers() {
@@ -36,7 +36,7 @@ public class Helpers {
     }
 
     static WebDriver getWebDriver() {
-        logger.log(Level.INFO, () -> ConsoleColors.GREEN + "Getting Webdriver." + ConsoleColors.RESET);
+        logger.info(ConsoleColors.GREEN + "Getting Webdriver." + ConsoleColors.RESET);
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("debuggerAddress", "localhost:9222");
@@ -46,14 +46,12 @@ public class Helpers {
     static void randomWait() {
         long randomNumber = random.nextInt(10) + 1L;
 
-        logger.log(Level.INFO, () -> "-------------------------------------------");
-        logger.log(Level.INFO, () -> ConsoleColors.YELLOW + "Waiting for " + randomNumber + " seconds." + ConsoleColors.RESET);
-        logger.log(Level.INFO, () -> "-------------------------------------------");
+        logger.info(ConsoleColors.YELLOW + "Waiting for {} seconds." + ConsoleColors.RESET, randomNumber);
 
         try {
             Thread.sleep(randomNumber * 1000);
         } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, e::getMessage);
+            logger.info(e.toString());
 
             Thread.currentThread().interrupt();
         }
@@ -65,7 +63,7 @@ public class Helpers {
         try {
             driver.findElement(bySelector).click();
         } catch (Exception e) {
-            logger.log(Level.INFO, () -> bySelector + " not found. (clickElem)");
+            logger.info("{} not found. (clickElem)", bySelector);
         }
     }
 
@@ -75,7 +73,7 @@ public class Helpers {
         try {
             driver.findElement(bySelector).sendKeys(value);
         } catch (Exception e) {
-            logger.log(Level.INFO, () -> bySelector + " not found. (fillInput)");
+            logger.info("{} not found.", bySelector);
         }
     }
 
@@ -105,7 +103,7 @@ public class Helpers {
     }
 
     public static void saveJob(JobDTO dto) throws URISyntaxException {
-        logger.log(Level.INFO, () -> "Saving job: " + ConsoleColors.PURPLE + dto.getTitle() + " -- " + dto.getEmployer() + ConsoleColors.RESET + '.');
+        logger.info(ConsoleColors.PURPLE + "Saving job {} -- {}." + ConsoleColors.RESET, dto.getTitle(), dto.getEmployer());
         URI uri = new URI(Configuration.SAVE_JOB_URL);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<JobDTO> jobHttpEntity = new HttpEntity<>(dto, headers);
@@ -114,7 +112,7 @@ public class Helpers {
     }
 
     public static void countTerms(CountTermsDTO dto) throws URISyntaxException {
-        logger.log(Level.INFO, () -> "Counting terms.");
+        logger.info(ConsoleColors.PURPLE + "Counting terms." + ConsoleColors.RESET);
         URI uri = new URI(Configuration.COUNT_TERMS_URL);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<CountTermsDTO> ctHttpEntity = new HttpEntity<>(dto, headers);
@@ -130,10 +128,11 @@ public class Helpers {
     }
 
     public static Object getJsonJobData(WebDriver driver, WebElement jobLink) throws IOException {
-        logger.log(Level.INFO, () -> "Getting JSON data for: " + ConsoleColors.PURPLE + jobLink.getAttribute("data-jk") + ConsoleColors.RESET + ".");
+        String jobKey = jobLink.getAttribute("data-jk");
+        logger.info(ConsoleColors.PURPLE + "Getting JSON data for: {}." + ConsoleColors.RESET, jobKey);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String javascriptCode = new String(Files.readAllBytes(Paths.get("C:\\Users\\dudas\\termcounter\\src\\main\\java\\com\\gd\\termcounter\\selenium\\request.js")));
-        javascriptCode = javascriptCode.replace("{{jobKey}}", jobLink.getAttribute("data-jk"));
+        javascriptCode = javascriptCode.replace("{{jobKey}}", jobKey);
         return jsExecutor.executeScript(javascriptCode);
     }
 }
