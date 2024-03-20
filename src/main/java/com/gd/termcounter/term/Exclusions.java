@@ -2,208 +2,39 @@ package com.gd.termcounter.term;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Arrays;
 
 public class Exclusions {
     protected static final Set<String> excludedWords = new HashSet<>();
 
     static {
-        excludedWords.add("and");
-        excludedWords.add("a");
-        excludedWords.add("the");
-        excludedWords.add("to");
-        excludedWords.add("of");
-        excludedWords.add("in");
-        excludedWords.add("our");
-        excludedWords.add("with");
-        excludedWords.add("you");
-        excludedWords.add("for");
-        excludedWords.add("we");
-        excludedWords.add("software");
-        excludedWords.add("will");
-        excludedWords.add("are");
-        excludedWords.add("on");
-        excludedWords.add("be");
-        excludedWords.add("is");
-        excludedWords.add("an");
-        excludedWords.add("working");
-        excludedWords.add("as");
-        excludedWords.add("development");
-        excludedWords.add("work");
-        excludedWords.add("your");
-        excludedWords.add("that");
-        excludedWords.add("have");
-        excludedWords.add("by");
-        excludedWords.add("team");
-        excludedWords.add("from");
-        excludedWords.add("this");
-        excludedWords.add("which");
-        excludedWords.add("using");
-        excludedWords.add("can");
-        excludedWords.add("if");
-        excludedWords.add("part");
-        excludedWords.add("all");
-        excludedWords.add("within");
-        excludedWords.add("their");
-        excludedWords.add("also");
-        excludedWords.add("or");
-        excludedWords.add("at");
-        excludedWords.add("-");
-        excludedWords.add("experience");
-        excludedWords.add("more");
-        excludedWords.add("&");
-        excludedWords.add("other");
-        excludedWords.add("new");
-        excludedWords.add("help");
-        excludedWords.add("code");
-        excludedWords.add("people");
-        excludedWords.add("one");
-        excludedWords.add("but");
-        excludedWords.add("not");
-        excludedWords.add("who");
-        excludedWords.add("about");
-        excludedWords.add("role");
-        excludedWords.add("technology");
-        excludedWords.add("us");
-        excludedWords.add("where");
-        excludedWords.add("any");
-        excludedWords.add("skills");
-        excludedWords.add("best");
-        excludedWords.add("it");
-        excludedWords.add("time");
-        excludedWords.add("across");
-        excludedWords.add("opportunity");
-        excludedWords.add("such");
-        excludedWords.add("make");
-        excludedWords.add("into");
-        excludedWords.add("join");
-        excludedWords.add("up");
-        excludedWords.add("including");
-        excludedWords.add("need");
-        excludedWords.add("application");
-        excludedWords.add("take");
-        excludedWords.add("days");
-        excludedWords.add("looking");
-        excludedWords.add("every");
-        excludedWords.add("company");
-        excludedWords.add("how");
-        excludedWords.add("per");
-        excludedWords.add("ensure");
-        excludedWords.add("based");
-        excludedWords.add("both");
-        excludedWords.add("well");
-        excludedWords.add("most");
-        excludedWords.add("•");
-        excludedWords.add("technologies");
-        excludedWords.add("knowledge");
-        excludedWords.add("–");
-        excludedWords.add("teams");
-        excludedWords.add("do");
-        excludedWords.add("what");
-        excludedWords.add("environment");
-        excludedWords.add("please");
-        excludedWords.add("understanding");
-        excludedWords.add("opportunities");
-        excludedWords.add("apply");
-        excludedWords.add("abilities");
-        excludedWords.add("ability");
-        excludedWords.add("diversity");
-        excludedWords.add("through");
-        excludedWords.add("you'll");
-        excludedWords.add("·");
-        excludedWords.add("years");
-        excludedWords.add("status");
-        excludedWords.add("we're");
-        excludedWords.add("strong");
-        excludedWords.add("/");
-        excludedWords.add("they");
-        excludedWords.add("offer");
-        excludedWords.add("value");
-        excludedWords.add("equal");
-        excludedWords.add("global");
-        excludedWords.add("employer");
-        excludedWords.add("leave");
-        excludedWords.add("gender");
-        excludedWords.add("use");
-        excludedWords.add("day");
-        excludedWords.add("so");
-        excludedWords.add("disability");
-        excludedWords.add("around");
-        excludedWords.add("location");
-        excludedWords.add("able");
-        excludedWords.add("benefits");
-        excludedWords.add("good");
-        excludedWords.add("contribute");
-        excludedWords.add("future");
-        excludedWords.add("candidates");
-        excludedWords.add("would");
-        excludedWords.add("great");
-        excludedWords.add("right");
-        excludedWords.add("world");
-        excludedWords.add("expertise");
-        excludedWords.add("way");
-        excludedWords.add("like");
-        excludedWords.add("has");
-        excludedWords.add("them");
-        excludedWords.add("sexual");
-        excludedWords.add("range");
-        excludedWords.add("familiarity");
-        excludedWords.add("values");
-        excludedWords.add("age");
-        excludedWords.add("build");
-        excludedWords.add("develop");
-        excludedWords.add("uk");
-        excludedWords.add("salary");
-        excludedWords.add("developing");
-        excludedWords.add("building");
-        excludedWords.add("projects");
-        excludedWords.add("we’re");
-        excludedWords.add("you’ll");
-        excludedWords.add("learning");
-        excludedWords.add("life");
-        excludedWords.add("culture");
-        excludedWords.add("key");
-        excludedWords.add("industry");
-        excludedWords.add("*");
-        excludedWords.add("high");
-        excludedWords.add("career");
-        excludedWords.add("learn");
-        excludedWords.add("excellent");
-        excludedWords.add("diverse");
-        excludedWords.add("some");
-        excludedWords.add("committed");
-        excludedWords.add("out");
-        excludedWords.add("employees");
-        excludedWords.add("over");
-        excludedWords.add("create");
-        excludedWords.add("want");
-        excludedWords.add("needs");
-        excludedWords.add("get");
-        excludedWords.add("access");
-        excludedWords.add("employee");
-        excludedWords.add("these");
-        excludedWords.add("recruitment");
-        excludedWords.add("innovative");
-        excludedWords.add("inclusive");
-        excludedWords.add("may");
-        excludedWords.add("success");
-        excludedWords.add("developers");
-        excludedWords.add("year");
-        excludedWords.add("being");
-        excludedWords.add("providing");
-        excludedWords.add("power");
-        excludedWords.add("include");
-        excludedWords.add("related");
-        excludedWords.add("members");
-        excludedWords.add("highly");
-        excludedWords.add("professional");
-        excludedWords.add("personal");
-        excludedWords.add("when");
-        excludedWords.add("successful");
-        excludedWords.add("creating");
-        excludedWords.add("innovation");
-        excludedWords.add("know");
-        excludedWords.add("together");
-        excludedWords.add("plus");
+        excludedWords.addAll(Arrays.asList(
+            "and", "a", "the", "to", "of", "in", "our", "with", "you", "for",
+            "we", "software", "will", "are", "on", "be", "is", "an", "working",
+            "as", "development", "work", "your", "that", "have", "by", "team",
+            "from", "this", "which", "using", "can", "if", "part", "all", "within",
+            "their", "also", "or", "at", "-", "experience", "more", "&", "other",
+            "new", "help", "code", "people", "one", "but", "not", "who", "about",
+            "role", "technology", "us", "where", "any", "skills", "best", "it",
+            "time", "across", "opportunity", "such", "make", "into", "join", "up",
+            "including", "need", "application", "take", "days", "looking", "every",
+            "company", "how", "per", "ensure", "based", "both", "well", "most", "•",
+            "technologies", "knowledge", "–", "teams", "do", "what", "environment",
+            "please", "understanding", "opportunities", "apply", "abilities", "ability",
+            "diversity", "through", "you'll", "·", "years", "status", "we're", "strong",
+            "/", "they", "offer", "value", "equal", "global", "employer", "leave", "gender",
+            "use", "day", "so", "disability", "around", "location", "able", "benefits",
+            "good", "contribute", "future", "candidates", "would", "great", "right", "world",
+            "expertise", "way", "like", "has", "them", "sexual", "range", "familiarity",
+            "values", "age", "build", "develop", "uk", "salary", "developing", "building",
+            "projects", "we’re", "you’ll", "learning", "life", "culture", "key", "industry",
+            "*", "high", "career", "learn", "excellent", "diverse", "some", "committed",
+            "out", "employees", "over", "create", "want", "needs", "get", "access",
+            "employee", "these", "recruitment", "innovative", "inclusive", "may", "success",
+            "developers", "year", "being", "providing", "power", "include", "related",
+            "members", "highly", "professional", "personal", "when", "successful", "creating",
+            "innovation", "know", "together", "plus"
+        ));
     }
 
     private Exclusions() {
