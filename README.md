@@ -3,8 +3,6 @@
 ## TODO
 - Dockerise
 
-In JobController.java and TermController.java, the conversion from DTO to entity is done manually using ObjectMapper. Consider using a library like MapStruct for object mapping to reduce boilerplate code and improve maintainability.
-
 Consider using the Lombok library to reduce boilerplate code in your Java classes. Lombok provides annotations to automatically generate getters, setters, constructors, and more. For example, in your TermDTO.java, you could use @Data or @Getter and @Setter annotations to eliminate explicit getter and setter methods.
 
 Implement API documentation using Swagger or Springdoc OpenAPI. This makes it easier to understand and test your API endpoints directly from a browser.

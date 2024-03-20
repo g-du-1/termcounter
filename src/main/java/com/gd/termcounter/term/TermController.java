@@ -1,7 +1,5 @@
 package com.gd.termcounter.term;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,17 +13,14 @@ import java.util.List;
 @RequestMapping("/api/v1/terms")
 public class TermController {
     private final TermService termService;
-    private final ObjectMapper objectMapper;
 
-    public TermController(TermService termService, ObjectMapper objectMapper) {
+    public TermController(TermService termService) {
         this.termService = termService;
-        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Term> saveTerm(@Valid @RequestBody TermDTO termDTO) throws JsonProcessingException {
-        String dtoString = objectMapper.writeValueAsString(termDTO);
-        Term term = objectMapper.readValue(dtoString, Term.class);
+    public ResponseEntity<Term> saveTerm(@Valid @RequestBody TermDTO termDTO) {
+        Term term = TermMapper.INSTANCE.termDtoToTerm(termDTO);
 
         Term savedTerm = termService.saveTerm(term);
 
